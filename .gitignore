@@ -100,3 +100,9 @@ fabric.properties
 cmake-build-debug
 cpp/cmake-build-debug
 .idea
+
+# Java related
+/target/
+*/target/**
+**/META-INF/
+!.mvn/wrapper/maven-wrapper.jar
