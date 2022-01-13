@@ -3,7 +3,8 @@ from model.Process import Process
 from algorithms.fcfs import *
 from algorithms.round_robin import *
 from display import display
-
+from algorithms.priority_preemtive import *
+from algorithms.priority_nonpreemtive import *
 
 def read_file(file_path):
     processes = []
@@ -34,6 +35,7 @@ def main():
         print("0. Select data file")
         print("1. FCFS")
         print("2. Round robin")
+        print("3. Priority nonpreemtive")
 
         choice = input()
 
@@ -74,5 +76,12 @@ def main():
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
+
+        if choice=="3":
+                    if data_loaded == True:
+                        total_waiting_time, total_turn_around_time = priority_nonpreemtive(processes)
+                        display(total_waiting_time, total_turn_around_time, len(processes))
+                    else:
+                        print("Please select data file first!")
 
 main()
