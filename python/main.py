@@ -1,42 +1,69 @@
 from os import path
 from model.Process import Process
+from algorithms.fcfs import fcfs
+from display import display
 
-basepath = path.dirname(__file__)
-route = basepath + "/data/data_50.txt"
 
-def read_file():
+def read_file(file_path):
     processes = []
-    file = open("/home/alex/Desktop/load-balacing/data/data_50.txt", "r")
+    
+    basepath = path.dirname(__file__)
+    basepath = basepath[:basepath.find('/python')]
+    route = basepath + file_path
+    file = open(route, "r")
+
     for index, line in enumerate(file):
         if index != 0:
             line = line.split(",")
             processes.append(Process(line[0],int(line[1]),int(line[2]),int(line[3])))
     return processes
-    
+
+# def main():
+#     processes = read_file()
+#     for processe in processes:
+#         print(processe)
+#     # fcfs(processes)
+
+
+
 def main():
-    processes = read_file()
-    fcfs(processes)
+    processes = []
+    data_loaded = False
+    while True:
+        print("0. Select data file")
+        print("1. FCFS")
 
-def fcfs(processes):
-    processes.sort(key=lambda process: process.arrival_time)
-    
-    for index, process in enumerate(processes):
-        if index == 0:
-            process.completion_time = process.arrival_time + process.duration
-        else:
-            if process.arrival_time > processes[index-1].completion_time:
-                process.completion_time = process.arrival_time + process.duration
+        choice = input()
+
+        if choice=="0":
+            print("1. 50 processes")
+            print("2. 500 processes")
+            print("3. 1000 processes")
+            print("4. EXIT")
+
+            data_choice = (input())
+            if data_choice == "1":
+                data_loaded = True
+                processes = []
+                processes = read_file("/data/data_50.txt")
+
+            elif data_choice == "2":
+                data_loaded = True
+                processes = []
+                processes = read_file("/data/data_500.txt")
+
+            elif data_choice == "3":
+                data_loaded = True
+                processes = []
+                processes = read_file("/data/data_1000.txt")
             else:
-                process.completion_time = processes[index-1].completion_time + process.duration 
-
-        process.turn_around_time = process.completion_time - process.arrival_time
-        process.waiting_time = process.turn_around_time - process.duration
-
-        total_waiting_time = process.waiting_time
-        total_turn_around_time = process.turn_around_time
-
-    print(f'Average waiting time = {total_waiting_time/len(processes)}')
-    print(f'Average turn around time = {total_turn_around_time/len(processes)}')
+                pass
+        
+        if choice=="1":
+            if data_loaded == True:
+                total_waiting_time, total_turn_around_time = fcfs(processes)
+                display(total_waiting_time, total_turn_around_time, len(processes))
+            else:
+                print("Please select data file first!")
 
 main()
-
