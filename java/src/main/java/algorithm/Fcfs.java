@@ -3,12 +3,15 @@ package algorithm;
 import model.Process;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class Fcfs implements SchedulingAlgorithm {
 
     @Override
     public void apply(List<Process> givenProcesses) {
+        double startTime = new Date().getTime();
+
         float totalWaitingTime = 0, totalTurnAroundTime = 0;
         List<Process> processes = givenProcesses.stream()
                 .sorted(Comparator.comparingInt(Process::getArrivalTime))
@@ -34,6 +37,6 @@ public class Fcfs implements SchedulingAlgorithm {
         }
 
         System.out.println("\n\n####### First Come First Serve (FCFS) #######");
-        display(processes, totalWaitingTime, totalTurnAroundTime);
+        display(processes, totalWaitingTime, totalTurnAroundTime, startTime, new Date().getTime());
     }
 }

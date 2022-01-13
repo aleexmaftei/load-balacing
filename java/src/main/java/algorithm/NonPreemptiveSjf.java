@@ -2,12 +2,15 @@ package algorithm;
 
 import model.Process;
 
+import java.util.Date;
 import java.util.List;
 
 public class NonPreemptiveSjf implements SchedulingAlgorithm {
 
     @Override
     public void apply(List<Process> processes) {
+        double startTime = new Date().getTime();
+
         boolean[] flags = new boolean[processes.size()];
         int systemTime = 0, finishedProcesses = 0;
         float totalWaitingTime = 0, totalTurnAroundTime = 0;
@@ -50,6 +53,6 @@ public class NonPreemptiveSjf implements SchedulingAlgorithm {
         }
 
         System.out.println("\n\n####### Shortest Job First (SJF) - Non-Preemptive #######");
-        display(processes, totalWaitingTime, totalTurnAroundTime);
+        display(processes, totalWaitingTime, totalTurnAroundTime, startTime, new Date().getTime());
     }
 }

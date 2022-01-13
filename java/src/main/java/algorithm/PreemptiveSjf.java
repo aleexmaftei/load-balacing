@@ -2,12 +2,15 @@ package algorithm;
 
 import model.Process;
 
+import java.util.Date;
 import java.util.List;
 
 public class PreemptiveSjf implements SchedulingAlgorithm {
 
     @Override
     public void apply(List<Process> processes) {
+        double startTime = new Date().getTime();
+
         boolean[] flags = new boolean[processes.size()];
         int[] durationsCopy = new int[processes.size()];
         int systemTime = 0, completedProcesses = 0;
@@ -49,7 +52,7 @@ public class PreemptiveSjf implements SchedulingAlgorithm {
             }
         }
 
-        for(Process process : processes) {
+        for (Process process : processes) {
             process.setTurnAroundTime(process.getCompletionTime() - process.getArrivalTime());
             process.setWaitingTime(process.getTurnAroundTime() - durationsCopy[processes.indexOf(process)]);
             process.setDuration(durationsCopy[processes.indexOf(process)]);
@@ -58,6 +61,6 @@ public class PreemptiveSjf implements SchedulingAlgorithm {
         }
 
         System.out.println("\n\n####### Shortest Job First (SJF) - Preemptive #######");
-        display(processes, totalWaitingTime, totalTurnAroundTime);
+        display(processes, totalWaitingTime, totalTurnAroundTime, startTime, new Date().getTime());
     }
 }

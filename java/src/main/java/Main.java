@@ -1,31 +1,34 @@
 import algorithm.*;
 import model.Process;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner sc = new Scanner(new File("src/main/resources/processes.txt"));
-        int numberOfProcesses = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        String fileName = "src/main/resources/data_1000.txt";//"src/main/resources/processes.txt";
+        int numberOfProcesses;
         List<Process> processes = new ArrayList<>();
 
-        for (int i = 0; i < numberOfProcesses; i++) {
-            Process process = new Process();
-            process.setName(sc.next());
-            process.setArrivalTime(sc.nextInt());
-            process.setDuration(sc.nextInt());
-            process.setPriority(sc.nextInt());
+        try(BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8))) {
+            numberOfProcesses = Integer.parseInt(br.readLine());
+            for (int i = 0; i < numberOfProcesses; i++) {
+                String[] split = br.readLine().split(",");
+                Process process = new Process();
+                process.setName(split[0]);
+                process.setDuration(Integer.parseInt(split[1]));
+                process.setArrivalTime(Integer.parseInt(split[2]));
+                process.setPriority(Integer.parseInt(split[3]));
 
-            processes.add(process);
+                processes.add(process);
+            }
         }
-        sc.close();
 
         List<SchedulingAlgorithm> algorithms =
-                List.of(new Fcfs(), new NonPreemptivePriority(), new NonPreemptiveSjf(), new PreemptiveSjf());
+                List.of(new Fcfs());
 
         for (SchedulingAlgorithm algorithm : algorithms) {
             algorithm.apply(deepCopy(processes));
