@@ -27,8 +27,8 @@ public class Main {
             }
         }
 
-        List<SchedulingAlgorithm> algorithms =
-                List.of(new Fcfs());
+        List<SchedulingAlgorithm> algorithms = List.of(new Fcfs(), new NonPreemptivePriority(), new NonPreemptiveSjf(),
+                new PreemptivePriority(), new PreemptiveSjf(), new RoundRobin());
 
         for (SchedulingAlgorithm algorithm : algorithms) {
             algorithm.apply(deepCopy(processes));

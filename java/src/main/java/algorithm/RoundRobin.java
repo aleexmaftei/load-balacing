@@ -27,6 +27,7 @@ public class RoundRobin implements SchedulingAlgorithm {
         do {
             for (int i = 0; i < processes.size(); i++) {
                 if (processes.get(i).getArrivalTime() > systemTime) {
+                    systemTime++;
                     continue;
                 }
 
