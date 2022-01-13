@@ -1,11 +1,12 @@
 #include<cstdio>
 #include<cstdlib>
 #include<string>
-#include <iostream>
+#include<iostream>
 #include<fstream>
-#include <vector>
-#include <chrono>
-#include <iomanip>
+#include<vector>
+#include<chrono>
+#include<iomanip>
+#include<algorithm>
 
 using namespace std;
 
@@ -20,23 +21,8 @@ typedef struct proces {
 
 bool verbose = false;
 
-// TODO: quicksort
-void bubble_sort(proces temp[], int n) {
-    proces t;
-    /// procesele sunt sortate crescator dupa timpul de inceput
-    /// primul din vector va fi primul care ajunge la cpu
-
-    int ok = 1;
-    while (ok == 1) {
-        ok = 0;
-        for (int i = 0; i < n - 1; ++i)
-            if (temp[i].timpInceput > temp[i + 1].timpInceput) {
-                t = temp[i + 1];
-                temp[i + 1] = temp[i];
-                temp[i] = t;
-                ok = 1;
-            }
-    }
+bool compare(const proces A, const proces B) {
+    return A.timpInceput < B.timpInceput;
 }
 
 pair<vector<proces>, int> fileRead(string path) {
@@ -79,7 +65,7 @@ void FCFS(vector<proces> P, int n) {
     for (i = 0; i < n; i++)
         temp[i] = P[i];
 
-    bubble_sort(temp, n);  /// sortare crescatoare dupa inceput
+    sort(temp, temp + (n - 1), compare);
 
     if (verbose) {
         printf("\n\n PROC.\tB.T.\tA.T.");
@@ -124,9 +110,9 @@ void FCFS(vector<proces> P, int n) {
     time_taken *= 1e-9;
 
     cout << "\nWall clock: " << fixed << time_taken << setprecision(9);
-    cout << " sec" << endl;
+    cout << " sec";
 
-    printf("\n\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.", timpMediuAsteptare,
+    printf("\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.\n \n", timpMediuAsteptare,
            timpMediuProcesare);
 }
 
@@ -144,7 +130,7 @@ void SJF_NP(vector<proces> P, int n) {
     for (i = 0; i < n; i++)
         temp[i] = P[i];
 
-    bubble_sort(temp, n);
+    sort(temp, temp + (n - 1), compare);
 
     for (i = 2; i < n; i++)
         for (j = 1; j < n - i + 1; j++) {
@@ -198,9 +184,9 @@ void SJF_NP(vector<proces> P, int n) {
     time_taken *= 1e-9;
 
     cout << "\nWall clock: " << fixed << time_taken << setprecision(9);
-    cout << " sec" << endl;
+    cout << " sec";
 
-    printf("\n\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.", timpMediuAsteptare,
+    printf("\nTimpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.", timpMediuAsteptare,
            timpMediuProcesare);
 
 }
@@ -220,7 +206,7 @@ void PRT_NP(vector<proces> P, int n) {
     for (i = 0; i < n; i++)
         temp[i] = P[i];
 
-    bubble_sort(temp, n);  /// sortare crescatoare dupa timpul de inceput
+    sort(temp, temp + (n - 1), compare);  /// sortare crescatoare dupa timpul de inceput
 
     for (i = 2; i < n; i++)  /// sortare crescatoare dupa prioritate
         for (j = 1; j < n - i + 1; j++) {
@@ -276,29 +262,25 @@ void PRT_NP(vector<proces> P, int n) {
     time_taken *= 1e-9;
 
     cout << "\nWall clock: " << fixed << time_taken << setprecision(9);
-    cout << " sec" << endl;
+    cout << " sec";
 
-    printf("\n\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.", timpMediuAsteptare,
+    printf("\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.\n \n", timpMediuAsteptare,
            timpMediuProcesare);
 }
 
 /// Round Robin Scheduling - preentiv - poate fi intrerupt si sa continue mai tarziu in cazul in care a ajuns la quantumul introdus
-void RR(vector<proces> P, int n) {
-    int nrProceseVerif = 0, t, timpCurent = 0, k, i, Q = 0;
+void RR(vector<proces> P, int n, int Q) {
+    int nrProceseVerif = 0, t, timpCurent = 0, k, i;
     int sumaTimpAsteptare = 0, sumaTimpProcesare = 0;
     float timpMediuAsteptare = 0.0, timpMediuProcesare = 0.0;
     proces temp1[n], temp2[n];
-
-    /// quantumul reprezinta timpul maxim de executare pe care il are procesul la dispozitie
-    printf("\n Introdu quantum : ");
-    scanf("%d", &Q);
 
     auto start = chrono::high_resolution_clock::now();
 
     for (i = 0; i < n; i++)
         temp1[i] = P[i];
 
-    bubble_sort(temp1, n);  /// sorteaza crescator dupa timpul de inceput
+    sort(temp1, temp1 + (n - 1), compare);  /// sorteaza crescator dupa timpul de inceput
 
     for (i = 0; i < n; i++)
         temp2[i] = temp1[i];
@@ -340,14 +322,14 @@ void RR(vector<proces> P, int n) {
     time_taken *= 1e-9;
 
     cout << "\nWall clock: " << fixed << time_taken << setprecision(9);
-    cout << " sec" << endl;
+    cout << " sec";
 
     timpMediuAsteptare = (float) sumaTimpAsteptare / n;
     timpMediuProcesare = (float) sumaTimpProcesare / n;
 
 
-    printf("Timp curent  %d", timpCurent);
-    printf("\n\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.", timpMediuAsteptare,
+    printf("\nTimp curent  %d", timpCurent);
+    printf("\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.\n \n", timpMediuAsteptare,
            timpMediuProcesare);
 
 }
@@ -366,7 +348,7 @@ void SJF_P(vector<proces> P, int n) {
         t_total += P[i].timpOcupare;
     }
 
-    bubble_sort(temp, n);
+    sort(temp, temp + (n - 1), compare);
 
     for (i = 0; i < n; i++)
         b[i] = temp[i].timpOcupare;
@@ -410,11 +392,11 @@ void SJF_P(vector<proces> P, int n) {
     time_taken *= 1e-9;
 
     cout << "\nWall clock: " << fixed << time_taken << setprecision(9);
-    cout << " sec" << endl;
+    cout << " sec";
 
     if (verbose) {
         printf(" %d", timpCurent);
-        printf("\n\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.", timpMediuAsteptare,
+        printf("\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.\n \n", timpMediuAsteptare,
                timpMediuProcesare);
     }
 
@@ -433,7 +415,7 @@ void PRT_P(vector<proces> P, int n) {
         t_total += P[i].timpOcupare;
     }
 
-    bubble_sort(temp, n);
+    sort(temp, temp + (n - 1), compare);
 
     for (i = 0; i < n; i++)
         b[i] = temp[i].timpOcupare;
@@ -479,24 +461,23 @@ void PRT_P(vector<proces> P, int n) {
     time_taken *= 1e-9;
 
     cout << "\nWall clock: " << fixed << time_taken << setprecision(9);
-    cout << " sec" << endl;
+    cout << " sec";
 
     if (verbose) {
         printf(" %d", timpCurent);
     }
-    printf("\n\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.", timpMediuAsteptare,
+    printf("\n Timpul mediu de asteptare = %0.2f\n Timpul mediu de procesare = %0.2f.\n \n", timpMediuAsteptare,
            timpMediuProcesare);
 
 }
 
 int main() {
-    int ch, n;
-    string path = "../../data/data_1000.txt";
+    int ch, n, Q = 0;
+    string path50 = "../../data/data_50.txt";
+    string path500 = "../../data/data_500.txt";
+    string path1000 = "../../data/data_1000.txt";
     pair<vector<proces>, int> values;
-    values = fileRead(path);
-
-    n = values.second;
-    vector<proces> P = values.first;
+    vector<proces> P;
     do {
         printf("\n Optiuni:");
         printf("\n 1. FCFS");
@@ -509,22 +490,105 @@ int main() {
         scanf("%d", &ch);
         switch (ch) {
             case 1:
+                values = fileRead(path50);
+                n = values.second;
+                P = values.first;
                 FCFS(P, n);
+                //////
+                values = fileRead(path500);
+                n = values.second;
+                P = values.first;
+                FCFS(P, n);
+                //////
+                values = fileRead(path1000);
+                n = values.second;
+                P = values.first;
+                FCFS(P, n);
+                //////
                 break;
             case 2:
+                values = fileRead(path50);
+                n = values.second;
+                P = values.first;
+                SJF_P(P, n);
+                //////
+                values = fileRead(path500);
+                n = values.second;
+                P = values.first;
+                SJF_P(P, n);
+                //////
+                values = fileRead(path1000);
+                n = values.second;
+                P = values.first;
                 SJF_P(P, n);
                 break;
             case 3:
+                values = fileRead(path50);
+                n = values.second;
+                P = values.first;
+                SJF_NP(P, n);
+                //////
+                values = fileRead(path500);
+                n = values.second;
+                P = values.first;
+                SJF_NP(P, n);
+                //////
+                values = fileRead(path1000);
+                n = values.second;
+                P = values.first;
                 SJF_NP(P, n);
                 break;
             case 4:
+                values = fileRead(path50);
+                n = values.second;
+                P = values.first;
+                PRT_P(P, n);
+                //////
+                values = fileRead(path500);
+                n = values.second;
+                P = values.first;
+                PRT_P(P, n);
+                //////
+                values = fileRead(path1000);
+                n = values.second;
+                P = values.first;
                 PRT_P(P, n);
                 break;
             case 5:
+                values = fileRead(path50);
+                n = values.second;
+                P = values.first;
+                PRT_NP(P, n);
+                //////
+                values = fileRead(path500);
+                n = values.second;
+                P = values.first;
+                PRT_NP(P, n);
+                //////
+                values = fileRead(path1000);
+                n = values.second;
+                P = values.first;
                 PRT_NP(P, n);
                 break;
             case 6:
-                RR(P, n);
+                /// quantumul reprezinta timpul maxim de executare pe care il are procesul la dispozitie
+                printf("\n Introdu quantum : ");
+                scanf("%d", &Q);
+
+                values = fileRead(path50);
+                n = values.second;
+                P = values.first;
+                RR(P, n, Q);
+                //////
+                values = fileRead(path500);
+                n = values.second;
+                P = values.first;
+                RR(P, n, Q);
+                //////
+                values = fileRead(path500);
+                n = values.second;
+                P = values.first;
+                RR(P, n, Q);
                 break;
             default:
                 exit(0);
