@@ -1,6 +1,7 @@
 from os import path
 from model.Process import Process
-from algorithms.fcfs import fcfs
+from algorithms.fcfs import *
+from algorithms.round_robin import *
 from display import display
 
 
@@ -18,13 +19,13 @@ def read_file(file_path):
             processes.append(Process(line[0],int(line[1]),int(line[2]),int(line[3])))
     return processes
 
-# def main():
-#     processes = read_file()
+# def main2():
+#     processes = read_file("/data/data.txt")
 #     for processe in processes:
 #         print(processe)
-#     # fcfs(processes)
-
-
+    
+#     total_waiting_time, total_turn_around_time = round_robin(processes)
+#     display(total_waiting_time, total_turn_around_time, len(processes))
 
 def main():
     processes = []
@@ -32,6 +33,7 @@ def main():
     while True:
         print("0. Select data file")
         print("1. FCFS")
+        print("2. Round robin")
 
         choice = input()
 
@@ -62,6 +64,13 @@ def main():
         if choice=="1":
             if data_loaded == True:
                 total_waiting_time, total_turn_around_time = fcfs(processes)
+                display(total_waiting_time, total_turn_around_time, len(processes))
+            else:
+                print("Please select data file first!")
+
+        if choice=="2":
+            if data_loaded == True:
+                total_waiting_time, total_turn_around_time = round_robin(processes)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
