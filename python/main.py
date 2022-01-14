@@ -5,6 +5,8 @@ from algorithms.round_robin import *
 from display import display
 from algorithms.priority_preemtive import *
 from algorithms.priority_nonpreemtive import *
+from algorithms.SJF_nonpreemptive import *
+from algorithms.SJF_preemptive import *
 
 def read_file(file_path):
     processes = []
@@ -20,14 +22,6 @@ def read_file(file_path):
             processes.append(Process(line[0],int(line[1]),int(line[2]),int(line[3])))
     return processes
 
-# def main2():
-#     processes = read_file("/data/data.txt")
-#     for processe in processes:
-#         print(processe)
-    
-#     total_waiting_time, total_turn_around_time = round_robin(processes)
-#     display(total_waiting_time, total_turn_around_time, len(processes))
-
 def main():
     processes = []
     data_loaded = False
@@ -37,6 +31,8 @@ def main():
         print("2. Round robin")
         print("3. Priority nonpreemtive")
         print("4. Priority preemtive")
+        print("5. SJF - non preemptive")
+        print("6. SJF - preemptive")
 
         choice = input()
 
@@ -88,6 +84,20 @@ def main():
         if choice == "4":
             if data_loaded == True:
                 total_waiting_time, total_turn_around_time = priority_preemtive(processes)
+                display(total_waiting_time, total_turn_around_time, len(processes))
+            else:
+                print("Please select data file first!")
+
+        if choice=="5":
+            if data_loaded == True:
+                total_waiting_time, total_turn_around_time = SJF_nonpreemptive(processes)
+                display(total_waiting_time, total_turn_around_time, len(processes))
+            else:
+                print("Please select data file first!")
+
+        if choice=="6":
+            if data_loaded == True:
+                total_waiting_time, total_turn_around_time = SJF_preemptive(processes)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
