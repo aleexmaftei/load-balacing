@@ -25,11 +25,13 @@ public class RoundRobin implements SchedulingAlgorithm {
         }
 
         do {
+            boolean found = false;
             for (int i = 0; i < processes.size(); i++) {
                 if (processes.get(i).getArrivalTime() > systemTime) {
                     systemTime++;
                     continue;
                 }
+                found = true;
 
                 if (remainingDuration[i] > 0) {
                     if (remainingDuration[i] > quantumTime) {
@@ -52,6 +54,10 @@ public class RoundRobin implements SchedulingAlgorithm {
                         remainingDuration[i] = 0;
                     }
                 }
+            }
+
+            if (!found) {
+                systemTime++;
             }
             sum = 0;
             for (int k = 0; k < processes.size(); k++) {
