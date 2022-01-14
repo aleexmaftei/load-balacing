@@ -36,20 +36,9 @@ public class RoundRobin implements SchedulingAlgorithm {
                     if (remainingDuration[i] > quantumTime) {
                         remainingDuration[i] -= quantumTime;
                         systemTime += quantumTime;
-                        for (int j = 0; j < processes.size(); j++) {
-                            if (j != i && remainingDuration[j] != 0) {
-                                processes.get(j).setWaitingTime(processes.get(j).getWaitingTime() + quantumTime);
-                            }
-                        }
                     } else {
                         systemTime += remainingDuration[i];
                         processes.get(i).setCompletionTime(systemTime);
-                        for( int j = 0; j < processes.size(); j++) {
-                            if (j != i && remainingDuration[j] != 0) {
-                                processes.get(j)
-                                        .setWaitingTime(processes.get(j).getWaitingTime() + remainingDuration[i]);
-                            }
-                        }
                         remainingDuration[i] = 0;
                     }
                 }
@@ -63,10 +52,11 @@ public class RoundRobin implements SchedulingAlgorithm {
             for (int k = 0; k < processes.size(); k++) {
                 sum += remainingDuration[k];
             }
-        } while (sum !=0);
+        } while (sum != 0);
 
         for (Process process : processes) {
-            process.setTurnAroundTime(process.getWaitingTime() + process.getArrivalTime());
+            process.setWaitingTime(process.getCompletionTime() - process.getDuration() - process.getArrivalTime());
+            process.setTurnAroundTime(process.getCompletionTime() - process.getArrivalTime());
             totalWaitingTime += process.getWaitingTime();
             totalTurnAroundTime += process.getTurnAroundTime();
         }
