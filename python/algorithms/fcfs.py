@@ -14,4 +14,4 @@ def fcfs(processes):
         process.waiting_time = process.turn_around_time - process.duration
 
 
-    return sum(processes, lambda x: x.waiting_time), sum(processes, lambda x: x.turn_around_time)
+    return sum(process.waiting_time for process in processes), sum(process.turn_around_time for process in processes)
