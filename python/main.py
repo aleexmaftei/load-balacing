@@ -36,6 +36,7 @@ def main():
         print("1. FCFS")
         print("2. Round robin")
         print("3. Priority nonpreemtive")
+        print("4. Priority preemtive")
 
         choice = input()
 
@@ -63,25 +64,32 @@ def main():
             else:
                 pass
         
-        if choice=="1":
+        if choice == "1":
             if data_loaded == True:
                 total_waiting_time, total_turn_around_time = fcfs(processes)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
 
-        if choice=="2":
+        if choice == "2":
             if data_loaded == True:
                 total_waiting_time, total_turn_around_time = round_robin(processes)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
 
-        if choice=="3":
-                    if data_loaded == True:
-                        total_waiting_time, total_turn_around_time = priority_nonpreemtive(processes)
-                        display(total_waiting_time, total_turn_around_time, len(processes))
-                    else:
-                        print("Please select data file first!")
+        if choice == "3":
+            if data_loaded == True:
+                total_waiting_time, total_turn_around_time = priority_nonpreemtive(processes)
+                display(total_waiting_time, total_turn_around_time, len(processes))
+            else:
+                print("Please select data file first!")
+
+        if choice == "4":
+            if data_loaded == True:
+                total_waiting_time, total_turn_around_time = priority_preemtive(processes)
+                display(total_waiting_time, total_turn_around_time, len(processes))
+            else:
+                print("Please select data file first!")
 
 main()
