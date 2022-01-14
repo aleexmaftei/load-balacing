@@ -1,3 +1,4 @@
+import time
 from os import path
 from model.Process import Process
 from algorithms.fcfs import *
@@ -12,7 +13,7 @@ def read_file(file_path):
     processes = []
     
     basepath = path.dirname(__file__)
-    basepath = basepath[:basepath.find('\python')]
+    basepath = basepath[:basepath.find('/python')]
     route = basepath + file_path
     file = open(route, "r")
 
@@ -46,58 +47,82 @@ def main():
             if data_choice == "1":
                 data_loaded = True
                 processes = []
-                processes = read_file("\data\data_50.txt")
+                processes = read_file("/data/data_50.txt")
 
             elif data_choice == "2":
                 data_loaded = True
                 processes = []
-                processes = read_file("\data\data_500.txt")
+                processes = read_file("/data/data_500.txt")
 
             elif data_choice == "3":
                 data_loaded = True
                 processes = []
-                processes = read_file("\data\data_1000.txt")
+                processes = read_file("/data/data_1000.txt")
             else:
                 pass
         
         if choice == "1":
             if data_loaded == True:
+                start_time = time.time() * 1000.0
                 total_waiting_time, total_turn_around_time = fcfs(processes)
+                stop_time = time.time() * 1000.0
+                print("wallclodk ")
+                print(stop_time - start_time)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
 
         if choice == "2":
             if data_loaded == True:
+                start_time = time.time() * 1000.0
                 total_waiting_time, total_turn_around_time = round_robin(processes)
+                stop_time = time.time() * 1000.0
+                print("wallclodk ")
+                print(stop_time - start_time)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
 
         if choice == "3":
             if data_loaded == True:
+                start_time = time.time() * 1000.0
                 total_waiting_time, total_turn_around_time = priority_nonpreemtive(processes)
+                stop_time = time.time() * 1000.0
+                print("wallclodk ")
+                print(stop_time - start_time)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
 
         if choice == "4":
             if data_loaded == True:
+                start_time = time.time() * 1000.0
                 total_waiting_time, total_turn_around_time = priority_preemtive(processes)
+                stop_time = time.time() * 1000.0
+                print("wallclodk ")
+                print(stop_time - start_time)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
 
         if choice=="5":
             if data_loaded == True:
+                start_time = time.time() * 1000.0
                 total_waiting_time, total_turn_around_time = SJF_nonpreemptive(processes)
+                stop_time = time.time() * 1000.0
+                print("wallclodk ")
+                print(stop_time - start_time)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
 
         if choice=="6":
             if data_loaded == True:
+                start_time = time.time() * 1000.0
                 total_waiting_time, total_turn_around_time = SJF_preemptive(processes)
+                stop_time = time.time() * 1000.0
+                print("wallclodk ")
+                print (stop_time - start_time)
                 display(total_waiting_time, total_turn_around_time, len(processes))
             else:
                 print("Please select data file first!")
