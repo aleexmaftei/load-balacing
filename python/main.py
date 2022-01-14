@@ -12,7 +12,7 @@ def read_file(file_path):
     processes = []
     
     basepath = path.dirname(__file__)
-    basepath = basepath[:basepath.find('/python')]
+    basepath = basepath[:basepath.find('\python')]
     route = basepath + file_path
     file = open(route, "r")
 
@@ -46,17 +46,17 @@ def main():
             if data_choice == "1":
                 data_loaded = True
                 processes = []
-                processes = read_file("/data/data_50.txt")
+                processes = read_file("\data\data_50.txt")
 
             elif data_choice == "2":
                 data_loaded = True
                 processes = []
-                processes = read_file("/data/data_500.txt")
+                processes = read_file("\data\data_500.txt")
 
             elif data_choice == "3":
                 data_loaded = True
                 processes = []
-                processes = read_file("/data/data_1000.txt")
+                processes = read_file("\data\data_1000.txt")
             else:
                 pass
         
