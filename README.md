@@ -12,3 +12,17 @@
 | Priority Scheduling (Pre-emptive)     	| 0.1367484s 	| 0.5777s 	| 4.367740s 	|
 | Priority Scheduling (Non Pre-emptive) 	| 0.0294884s 	| 0.333s  	| 1.110080s 	|
 | Round Robin (Q = 100)                 	| 0.0010806s 	| 0.003s  	| 0.010009s 	|
+
+
+
+---
+
+## Team members: 
+
+* **Bajan Ioana** 
+* **Benchea Alexandru**
+* **Dimisca Vlad**
+* **Maftei Ioan-Alexandru**
+* **Todirica Oana**
+
+---
