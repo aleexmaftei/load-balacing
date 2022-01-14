@@ -11,3 +11,10 @@ class Process:
 
   def __str__(self):
     return f'{self.name} - {self.duration} - {self.priority} - {self.completion_time} - {self.arrival_time}'
+
+
+  def set_waiting_time(self, waiting_time):
+    self.waiting_time = waiting_time
+
+  def get_waiting_time(self):
+    return self.waiting_time

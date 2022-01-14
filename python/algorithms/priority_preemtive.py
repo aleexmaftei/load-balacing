@@ -8,7 +8,7 @@ def priority_preemtive(processes):
     total_waiting_time = 0
     total_turn_around_time = 0
     total_burst_time = sum(process.duration for process in processes)
-# TODO: WHY IS WAITING TIME ALWAYS 0.0
+
     finished_processes = [False] * len(processes)
     i=0
     for time in range(0, total_burst_time):
@@ -17,9 +17,9 @@ def priority_preemtive(processes):
 
         if processes[i].duration <= 0 & (not finished_processes[i]):
 
-            processes[i].wating_time = time + 1 - processes[i].duration - processes[i].arrival_time
+            processes[i].set_waiting_time(time + 1 - processes[i].duration - processes[i].arrival_time)
             processes[i].turn_around_time = time + 1 + processes[i].duration
-            total_waiting_time += processes[i].waiting_time
+            total_waiting_time += processes[i].get_waiting_time()
             total_turn_around_time += processes[i].turn_around_time
         min_priority = sys.maxsize
         for index, process in enumerate(processes):

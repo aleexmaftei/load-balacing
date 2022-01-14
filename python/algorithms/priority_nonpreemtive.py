@@ -12,12 +12,12 @@ def priority_nonpreemtive(processes):
             continue
         executing_process = processes[index - 1]
 
-        process.wating_time = executing_process.arrival_time + executing_process.duration \
-                              + executing_process.waiting_time - process.arrival_time
+        process.set_waiting_time( (executing_process.arrival_time + executing_process.duration \
+                              + executing_process.waiting_time) - process.arrival_time)
 
         process.turn_around_time = process.waiting_time + process.duration
 
-        total_waiting_time += process.waiting_time
+        total_waiting_time += process.get_waiting_time()
         print(process.waiting_time)
         total_burst_time += process.turn_around_time
 
