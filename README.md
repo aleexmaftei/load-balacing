@@ -1,7 +1,11 @@
 ## Load balancing timings on C++, Java and Python
 
+### Presentation can be found [here](presentation/).
+
+---
+
 #### CPU: Ryzen-7 3700x 3.6GHz
-#### RAM: 16GB DDR4 3600MHz CL16 Dual Channe
+#### RAM: 16GB DDR4 3600MHz CL16 Dual Channel
 #### Data: 1000 values as test data
 
 |Algorithm  	| C++         	| Java    	| Python    	|
@@ -25,4 +29,3 @@
 * **Maftei Ioan-Alexandru**
 * **Todirica Oana**
 
----
